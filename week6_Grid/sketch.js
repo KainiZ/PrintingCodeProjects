@@ -1,91 +1,112 @@
 var r = new Rune({
   container: "#canvas",
-  width: 1200,
-  height: 800
+  width: 600,
+  height: 800,
+  debug: false
 });
 
-// Create a new Rune.Font object
-var f = new Rune.Font("bebas.ttf");
 
-f.load( function(err) {
+//Create a rectangle to fill the entire screen
+//and a smaller rectangle on top
+var grid = r.grid({
+  x: 50,
+  y: 50,
+  width: r.width - 100,
+  height: r.height - 100,
+  gutter: 20,
+  columns: 3,
+  rows: 3
+});
 
-  //draw "ain't it pretty"
-  // Get a path of the text from the font
-  // at x,y 80,300 and font size 150.
-  var pathPretty = f.toPath("AIN'T  IT  PRETTY , ", 80, 300, 150)
-    .fill('hsv', 110, 50, 90)
-    .stroke(false);
 
-  // We need to specifically add the new path to the stage,
-  // as is wasn't created via the r.path() function.
-  r.stage.add(pathPretty);
 
-  // convert the path to polygons.
-  var polysPretty = pathPretty.toPolygons({ spacing: 5 });
-
-  // loop through the points and change them a little bit
-  for(var i = 0; i < polysPretty.length; i++) {
-
-    var polyPretty = polysPretty[i];
-    polyPretty.fill(false)
+var greyBg = r.path(50, 50)
+              .lineTo(0,300)
+              .lineTo(500,300)
+              .lineTo(500,0)
+              .closePath()
+              .fill(240)
               .stroke(false);
 
-    for(var j = 0; j < polyPretty.vars.vectors.length; j++) {
-      var vecPretty = polyPretty.vars.vectors[j];
-
-      //while looping the points, draw ellipse at each point
-      vecPretty.x += Rune.random(-3, 3);
-      vecPretty.y += Rune.random(-3, 3);
-      var circleX = polyPretty.vars.x + vecPretty.x;
-      var circleY = polyPretty.vars.y + vecPretty.y;
-      var circleD = Rune.random(2,8);
-      var Circles = r.circle(circleX, circleY, circleD, circleD)
-       .stroke(false)
-       .fill(PrettyColor);
-
-      var PrettyColor = new Rune.Color('hsv', Rune.random(330,360), Rune.random(0,50), 100);
-    }
-  }
-  r.draw(); // "ain't it pretty" done!
+//yellow
+var path = r.path(330, 300)
+            .lineTo(0, 450)
+            .lineTo(221,450)
+            .lineTo(221,-10)
+            .closePath()
+            .stroke(false)
+            .fill('hsv', 50, 80, 100);
 
 
-
-  //draw "ain't it cool?"
-  var pathCool = f.toPath("AIN'T  IT  COOL  ?", 80, 550, 150)
-    .fill(true)
-    .stroke(false);
-
-  r.stage.add(pathCool);
-
-  var polysCool = pathCool.toPolygons({ spacing: 3 });
-
-  //loop the points and connect them with lines
-  for(var h = 0; h < polysCool.length; h++) {
-      var polyCool = polysCool[h];
-
-        for(var k = 0; k < polyCool.vars.vectors.length; k++) {
-          var vecCool = polyCool.vars.vectors[k];
-              polyCool.fill(255)
-              .stroke(true)
-              .strokeWidth(0.2);
-
-          
-
-          var pointX = polyCool.vars.x + vecCool.x;
-          var pointY = polyCool.vars.y + vecCool.y;
+//red
+var path = r.path(50, 300)
+            .lineTo(0, 450)
+            .lineTo(350,450)
+            .lineTo(400,30)
+            .closePath()
+            .stroke(false)
+            .fill('hsv', 1, 80, 100);
 
 
-          var Lines = r.line(pointX, pointY, pointX+Rune.random(-5,5) , pointY+Rune.random(-5,15))
-                       .strokeWidth(1)
-                       .stroke(0);
-          
+//green
+var path = r.path(350,150)
+            .lineTo(0,50)
+            .lineTo(100, 50)
+            .lineTo(100,0)
+            .fill('hsv', 100, 100, 70)
+            .stroke(false)
+            .rotate(30, 350, 150);
 
-          }
+r.draw();
 
-        }
+var title = new Rune.Font("bebas.ttf");
+
+title.load ( function(err) {
+  var pathDas = title.toPath ("DAS", 75, 180, 120)
+                     .fill(10)
+                     .stroke(false);
+
+  var pathCapital = title.toPath ("KAPITAL", 75, 280, 120)
+                     .fill(10)
+                     .stroke(false);
+
+  var pathKarl = title.toPath ("Karl", 75, 450, 120)
+                     .fill(10)
+                     .stroke(false);
+
+
+  var pathMarx = title.toPath ("Marx", 75, 550, 120)
+                     .fill(10)
+                     .stroke(false);
+
+
+  
+  r.stage.add(pathDas);
+  r.stage.add(pathCapital);
+  r.stage.add(pathKarl);
+  r.stage.add(pathMarx);
 
 
 
   r.draw();
-
 });
+
+
+r.text("FROM CAPITALISTIC EXPLOITATION", 75, 620)
+  .fill(10)
+  .stroke(false)
+  .fontSize(22)
+  .textAlign("left")
+  .fontFamily("Helvetica")
+  .fontWeight("bold")
+
+r.text("TO COMMUNIST REVOLUTION", 75, 650)
+  .fill(10)
+  .stroke(false)
+  .fontSize(22)
+  .textAlign("left")
+  .fontFamily("Helvetica")
+  .fontWeight("bold")
+
+r.draw();
+
