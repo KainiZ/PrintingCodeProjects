@@ -18,7 +18,6 @@ var ypos4 = Rune.random(0,330);
 
 var offsets = Array(-2, -5, -10, -15, -20, 2, 5, 10, 15, 20);
 
-//var yoffset = Array(-2, -5, -10, -15, -20 2, 5, 10, 15, 20);
 var xoffset = offsets[Math.floor(Math.random()*offsets.length)];
 var yoffset = offsets[Math.floor(Math.random()*offsets.length)];
 
